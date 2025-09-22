@@ -9,39 +9,7 @@ $mascara = $partes[1];
 $partes_ip = explode(".",$ip_red);
 $ip_binaria="";
 
-for ($i = 0; $i < 4; $i++) {
-    $partes_ip[$i] = sprintf("%08b", $partes_ip[$i]);
-}
-$ip_binaria = implode("", $partes_ip);
-$ip_binaria = substr($ip_binaria, 0, $mascara) . str_repeat("0", 32 - $mascara);
-$ip_red_dec = [];
-for ($i = 0; $i < 4; $i++) {
-    $octeto = substr($ip_binaria, $i * 8, 8);
-    $ip_red_dec[] = bindec($octeto);
-}
-$ip_red_final = implode(".", $ip_red_dec);
-$ip_binaria = substr($ip_binaria, 0, $mascara) . str_repeat("1", 32 - $mascara);
-$ip_broadcast_dec = [];
-for ($i = 0; $i < 4; $i++) {
-    $octeto = substr($ip_binaria, $i * 8, 8
-    );
-    $ip_broadcast_dec[] = bindec($octeto);
-}
-$ip_broadcast_final = implode(".", $ip_broadcast_dec);
-$rango_inicio = $ip_red_dec;
-$rango_inicio[3] += 1;
-$rango_fin = $ip_broadcast_dec;
-$rango_fin[3] -= 1;
-$rango_inicio_final = implode(".", $rango_inicio);
-$rango_fin_final = implode(".", $rango_fin);
-printf("IP %s<br>Mascara %d<br>Direccion Red: %s<br>Direccion Broadcast: %s<br>Rango: %s a %s<br>",
-    $ip,
-    $mascara,
-    $ip_red_final,
-    $ip_broadcast_final,
-    $rango_inicio_final,
-    $rango_fin_final
-);
+
 
 /* Ejemplos salida:
 IP 192.168.16.100/16
