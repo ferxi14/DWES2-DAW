@@ -1,21 +1,35 @@
 <?php
 function limpiar_campo($campoformulario) {
-  $campoformulario = trim($campoformulario); //elimina espacios en blanco por izquierda/derecha
-  $campoformulario = stripslashes($campoformulario); //elimina la barra de escape "\", utilizada para escapar caracteres
-  $campoformulario = htmlspecialchars($campoformulario);  
-  //convierte caracteres especiales a entidades HTML
-  // Ciertos caracteres tienen significados especiales en HTML, y deben ser representados por entidades HTML 
-  // si se desea preservar su significado
-  //  &(ampersand) = &amp;
-  //  " (double quote) = &quot;
-  //  ' (single quote) = &#039;
-  //  < menor que = &lt;
+  $campoformulario = trim($campoformulario);
+  $campoformulario = stripslashes($campoformulario);
+  $campoformulario = htmlspecialchars($campoformulario);
 
   return $campoformulario;
    
 }
 
+function sumar($a, $b) {
+  return $a + $b;
+}
+
+function restar($a, $b) {
+  return $a - $b;
+}
+
+function multiplicar($a, $b) {
+  return $a * $b;
+}
+
+function dividir($a, $b) {
+  if ($b != 0) {
+    return $a / $b;
+  } else {
+    return "Error: División por cero";
+  }
+}
+
 $operando1 = $operando2 = $operacion = $resultado = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $operando1 = limpiar_campo($_POST["operando1"]);
   $operando2 = limpiar_campo($_POST["operando2"]);
@@ -23,24 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
   switch ($operacion) {
     case 'suma':
-        $resultado = $operando1 + $operando2;
+        $resultado = sumar($operando1, $operando2);
         $operacion = "+";
         break;
     case 'resta':
-        $resultado = $operando1 - $operando2;
+        $resultado = restar($operando1, $operando2);
         $operacion = "-";
         break;
     case 'multiplicacion':
-        $resultado = $operando1 * $operando2;
+        $resultado = multiplicar($operando1, $operando2);
         $operacion = "*";
         break;
     case 'division':
-        if ($operando2 != 0) {
-            $resultado = $operando1 / $operando2;
-            $operacion = "/";
-        } else {
-            $resultado = "Error: División por cero";
-        }
+        $resultado = dividir($operando1, $operando2);
+        $operacion = "/";
         break;
     default:
         $resultado = "Operación no válida";
