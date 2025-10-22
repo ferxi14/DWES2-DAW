@@ -22,7 +22,7 @@
                 </tr>";
             // Leer el archivo línea por línea
             while (($linea = fgets($archivo)) !== false){
-                $linea = trim(linea);
+                $linea = trim($linea);
 
                 $nombre = substr($linea, 0, 40);               // Nombre: 0-39
                 $primer_apellido = substr($linea, 40, 40);      // 1 Apellido: 40-79
