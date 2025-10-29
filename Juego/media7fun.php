@@ -116,17 +116,31 @@ function darPremios($ganadores, $jugadores) {
     }
 
     // Guardar datos en el fichero
-    /*$contenidoFichero = "";
+    $fechaActual = date("dmYHis"); 
+    $nombreFichero = "apuestas_" . $fechaActual . ".txt";
+    $contenidoFichero = "";
+    $importeGanadores = 0;
+
     foreach ($ganadores as $ganador) {
         $puntos = $jugadores[$ganador]['puntos'];
-        $contenidoFichero .= recogerDatos($ganador, $puntos, $premioPorJugador);
+        $iniciales = obtenerIniciales($ganador);
+        $importeGanadores += $premioPorJugador;
+        $contenidoFichero .= "$iniciales#$puntos#$premioPorJugador\n";
     }
 
+    $numGanadores = count($ganadores);
+    $contenidoFichero .= "TOTAL PREMIOS#$numGanadores#$importeGanadores\n";
+
     // Escribir en el fichero
-    file_put_contents("apuestas.txt", $contenidoFichero, FILE_APPEND);*/
+    file_put_contents($nombreFichero, $contenidoFichero);
 }
 
-/*function recogerDatos($nombre, $puntos, $apuesta) {
-	return $nombre . "#" . $puntos . "#" . $apuesta . "\n";
-}*/
+function obtenerIniciales($nombre) {
+    $palabras = explode(" ", trim($nombre));
+    $iniciales = "";
+    foreach ($palabras as $palabra) {
+        $iniciales .= strtoupper(substr($palabra, 0, 2));
+    }
+    return $iniciales;
+}
 ?>
