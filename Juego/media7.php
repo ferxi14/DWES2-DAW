@@ -19,13 +19,14 @@
 
                 for($i = 0; $i < $jugador['numcartas']; $i++) {
                     $num = rand(1,10);
+                    // Si es 8,9,10 se asignan las letras J, Q, K
                     if ($num == 8)
                         $num = "J";
                     if ($num == 9)
                         $num = "Q";
                     if ($num == 10)
                         $num = "K";
-
+                    // Palos de la baraja
                     $letra = rand(1,4);
                     if ($letra == 1)
                         $letra = "C";
