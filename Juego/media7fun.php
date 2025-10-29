@@ -9,24 +9,55 @@ function limpiar_campo($input) {
 }
 
 function obtenerJugadores() {
-    $jugadores = array();
-	$numCartas = $_POST['numcartas'];
+    $jugadores = [];
+    $numCartas = limpiar_campo($_POST['numcartas']);
 
-    foreach (['nombre1', 'nombre2', 'nombre3', 'nombre4'] as $jugador) {
-        if(!empty($_POST[$jugador])){
-            
-            $jugadores[limpiar_campo($_POST[$jugador])] = array(
-                                        'numcartas' => $numCartas,
-                                        'cartas' => array(),
-                                        'puntos' => 0
-                                    );
+    for ($i = 1; $i <= 4; $i++) { 
+        $campo = 'nombre' . $i;
+        if (!empty($_POST[$campo])) {
+            $nombre = limpiar_campo($_POST[$campo]);
+            $jugadores[$nombre] = [
+                'numcartas' => $numCartas,
+                'cartas' => [],
+                'puntos' => 0
+            ];
         }
     }
 
-	if (count($jugadores) < 2 )
-		trigger_error("Debe haber minimo 2 jugadores", E_USER_ERROR);
+    if (count($jugadores) < 2)
+        trigger_error("Debe haber mínimo 2 jugadores", E_USER_ERROR);
 
-	return $jugadores;
+    return $jugadores;
+}
+
+function generarCarta(&$cartasTotales) {
+    do {
+        $num = rand(1, 10);
+        $letra = ["C", "D", "P", "T"][rand(0, 3)];
+
+        if ($num == 8) $num = "J";
+        if ($num == 9) $num = "Q";
+        if ($num == 10) $num = "K";
+
+        $carta = "$num$letra";
+    } while (in_array($carta, $cartasTotales));
+
+    $cartasTotales[] = $carta;
+    return [$num, $letra];
+}
+
+function calcularPuntos($num) {
+    return ($num === "J" || $num === "Q" || $num === "K") ? 0.5 : $num;
+}
+
+function repartirCartas(&$jugadores, &$cartasTotales) {
+    foreach ($jugadores as $nombre => &$jugador) {
+        for ($i = 0; $i < $jugador['numcartas']; $i++) {
+            list($num, $letra) = generarCarta($cartasTotales);
+            $jugador['cartas'][] = "$num$letra";
+            $jugador['puntos'] += calcularPuntos($num);
+        }
+    }
 }
 
 function mostrarGanador($jugadores) {
@@ -64,6 +95,25 @@ function mostrarGanador($jugadores) {
 
 function imprimirCartas($num, $letra) {
 	echo "<td><img src='images/".$num.$letra.".PNG'></td>";
+}
+
+function mostrarResultados($jugadores) {
+    echo "<h2>Resultado de la tirada</h2>";
+
+    foreach ($jugadores as $nombre => $jugador) {
+        echo "<table border='1' style='margin-bottom:10px;'>";
+        echo "<tr><th colspan='" . (count($jugador['cartas']) + 1) . "'>$nombre</th></tr>";
+        echo "<tr>";
+
+        foreach ($jugador['cartas'] as $carta) {
+            $num = substr($carta, 0, -1);
+            $letra = substr($carta, -1);
+            imprimirCartas($num, $letra);
+        }
+
+        echo "<td><b>Total:</b> {$jugador['puntos']}</td>";
+        echo "</tr></table>";
+    }
 }
 
 function darPremios($ganadores, $jugadores) {
