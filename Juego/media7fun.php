@@ -115,19 +115,18 @@ function darPremios($ganadores, $jugadores) {
         $banca = $bote;
     }
 
-    // Guardar datos en el fichero (incluye banca, pero no se muestra)
-    $contenidoFichero = "";
+    // Guardar datos en el fichero
+    /*$contenidoFichero = "";
     foreach ($ganadores as $ganador) {
         $puntos = $jugadores[$ganador]['puntos'];
         $contenidoFichero .= recogerDatos($ganador, $puntos, $premioPorJugador);
     }
-    $contenidoFichero .= "BANCA#-#{$banca}\n";
 
     // Escribir en el fichero
-    file_put_contents("apuestas.txt", $contenidoFichero, FILE_APPEND);
+    file_put_contents("apuestas.txt", $contenidoFichero, FILE_APPEND);*/
 }
 
-function recogerDatos($nombre, $puntos, $apuesta) {
+/*function recogerDatos($nombre, $puntos, $apuesta) {
 	return $nombre . "#" . $puntos . "#" . $apuesta . "\n";
-}
+}*/
 ?>
