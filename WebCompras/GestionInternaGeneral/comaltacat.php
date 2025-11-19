@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nombrecat'])) {
 
         insertarDatos('categoria', $valores);
 
-        echo "Categoría [$nombreCategoria] con ID [$idcat] introducida exitosamente.";
+        echo "Categoría [$nombreCategoria] con ID [$idcat] introducida exitosamente";
     } catch (PDOException $e) {
         echo "Error con la consulta de la categoría: " . $e->getMessage();
     }
