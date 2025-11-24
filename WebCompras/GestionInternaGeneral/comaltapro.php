@@ -35,9 +35,9 @@
     $idCategoriaSeleccionada = '';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nombreProd = $_POST['nombreprod'];
-        $precio = $_POST['precioprod'];
-        $categoria = $_POST['categoriaprod'];
+        $nombreProd = limpiar_campo($_POST['nombreprod']);
+        $precio = limpiar_campo($_POST['precioprod']);
+        $categoria = limpiar_campo($_POST['categoriaprod']);
 
         $sql = 'SELECT MAX(ID_PRODUCTO) FROM producto';
         $res = ejecutarConsulta($sql, array(), PDO::FETCH_NUM, true);

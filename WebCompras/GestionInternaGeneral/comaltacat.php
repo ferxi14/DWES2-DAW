@@ -19,7 +19,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nombrecat'])) {
     include "../funciones/funciones.php";
     $conn = conexionBBDD();
-    $nombreCategoria = $_POST['nombrecat'];
+    $nombreCategoria = limpiar_campo($_POST['nombrecat']);
 
     try {
         $sql = 'SELECT MAX(ID_CATEGORIA) FROM categoria';

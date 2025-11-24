@@ -1,4 +1,12 @@
 <?php
+    function limpiar_campo($input) {
+
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);  
+
+        return $input;
+    }
     function conexionBBDD() {
         try {
             $conn = new PDO("mysql:host=localhost;dbname=comprasweb", "root", "");
