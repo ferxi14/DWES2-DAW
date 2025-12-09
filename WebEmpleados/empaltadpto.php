@@ -20,41 +20,30 @@
                         $conn = conexionBBDD();
                         $conn->beginTransaction();
 
-                        // Obtener último código
-                        $sql = "SELECT cod_dpto FROM departamento ORDER BY cod_dpto DESC LIMIT 1";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute();
-                        $ultimo = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        if ($ultimo) {
-                            $num = intval(substr($ultimo['cod_dpto'], 1)) + 1;
-                        } else {
-                            $num = 1;
-                        }
-
-                        $nuevoCodigo = "D" . str_pad($num, 3, "0", STR_PAD_LEFT);
-
-                        // Insertar departamento
-                        $sql = "INSERT INTO departamento (cod_dpto, nombre_dpto) VALUES (:cod_dpto, :nombre_dpto)";
-                        $stmt = $conn->prepare($sql);
-
                         $nombre_dpto = limpiar_campo($_POST['dpto']);
-
-                        $stmt->bindParam(':cod_dpto', $nuevoCodigo);
-                        $stmt->bindParam(':nombre_dpto', $nombre_dpto);
-                        $stmt->execute();
-
+                        $nuevoCodigo = insertarDepartamento($conn, $nombre_dpto);
+                        
                         $conn->commit();
 
-                        echo "<p>Departamento <b>$nombre_dpto</b> insertado con código <b>$nuevoCodigo</b>.</p>";
+                        //echo "<p>Departamento <b>$nombre_dpto</b> insertado con código <b>D00$nuevoCodigo</b>.</p>";
 
                     } catch (PDOException $e) {
                         $conn->rollBack();
                         echo "Error: " . $e->getMessage();
 
                         echo "Código de error: " . $e->getCode() . "<br>";
-                    }
+                        $errorInfo = $e->errorInfo;
+                        if ($errorInfo) {
+                            echo "SQLSTATE: " . $errorInfo[0] . "<br>";
+                            echo "Código específico de la base de datos: " . $errorInfo[1]
+                                . "<br>Mensaje específico de la base de datos: " . $errorInfo[2] . "<br>";
 
+                            if ($errorInfo[1] == 1062) 
+                                echo "<p>El departamento ya existe.</p>";
+                            
+                        }
+                    }
+                    $conn = null;
                 }
             ?>
         </form>
