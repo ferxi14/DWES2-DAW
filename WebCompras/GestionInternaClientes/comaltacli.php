@@ -44,12 +44,12 @@
         $mensaje = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nif = strtoupper(trim($_POST['nif']));
-            $nombre = trim($_POST['nombre']);
-            $apellido = trim($_POST['apellido']);
-            $cp = trim($_POST['cp']);
-            $direccion = trim($_POST['direccion']);
-            $ciudad = trim($_POST['ciudad']);
+            $nif = limpiar_campo($_POST['nif']);
+            $nombre = limpiar_campo($_POST['nombre']);
+            $apellido = limpiar_campo($_POST['apellido']);
+            $cp = limpiar_campo($_POST['cp']);
+            $direccion = limpiar_campo($_POST['direccion']);
+            $ciudad = limpiar_campo($_POST['ciudad']);
 
             if (empty($nif)) {
                 $error = "El NIF es obligatorio.";
