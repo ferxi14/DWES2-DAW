@@ -116,4 +116,11 @@
             echo "<option value='" . $row[$valor] . "'>" . $row[$texto] . "</option>";
         }
     }
+
+    function mostrarFormularioFinal() {
+        echo '<form action="comprocli.php" method="POST">
+                <input type="submit" name="finalizar_compra" value="Finalizar Compra">
+                <input type="submit" name="borrar_carrito" value="Borrar carrito">
+              </form>';
+    }
 ?>

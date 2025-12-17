@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-// Control de acceso: solo usuarios logueados
 if (!isset($_SESSION['nif'])) {
-    header("Location: comlogincli.php");
+    header("Location: comlogoutcli.php");
     exit();
 }
 ?>
@@ -27,6 +26,9 @@ if (!isset($_SESSION['nif'])) {
         </li>
         <li>
             <a href="comconscli.php">Consulta de compras</a>
+        </li>
+        <li>
+            <a href="comlogoutcli.php">Cerrar sesión</a>
         </li>
     </ul>
 

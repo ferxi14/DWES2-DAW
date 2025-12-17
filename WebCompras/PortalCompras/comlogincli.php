@@ -21,7 +21,7 @@
     </form>
 
     <?php
-        session_start();
+        
         include "../funciones/funciones.php";
 
         // Si ya está logueado
@@ -46,6 +46,7 @@
                 $clave_correcta = strrev(strtolower($cliente['APELLIDO']));
 
                 if ($clave === $clave_correcta) {
+                    session_start();
                     $_SESSION['nif'] = $cliente['NIF'];
                     $_SESSION['nombre'] = $cliente['NOMBRE'];
                     header("Location: index.php");

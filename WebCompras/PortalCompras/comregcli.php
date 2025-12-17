@@ -35,7 +35,6 @@
     <a href="comlogincli.php">Si ya tienes cuenta</a>
 
     <?php
-        session_start();
         include '../funciones/funciones.php';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -81,8 +80,6 @@
 
                 insertarDatos('cliente', $valores);
 
-                $_SESSION['nif'] = $nif;
-                $_SESSION['nombre'] = $nombre;
 
                 echo "Cliente registrado correctamente.<br>";
                 echo "Usuario: <b>$usuario</b><br>";
