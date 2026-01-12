@@ -58,6 +58,9 @@
                 echo "<p>No hay productos en el carrito.</p>";
             }
         ?>
+        <li>
+            <a href="comlogoutcli.php">Cerrar sesión</a>
+        </li>
     </body>
 </html>
 

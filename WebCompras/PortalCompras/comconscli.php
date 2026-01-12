@@ -83,5 +83,8 @@
     <p>No hay compras en ese rango de fechas.</p>
 <?php endif; ?>
 
+<li>
+    <a href="comlogoutcli.php">Cerrar sesión</a>
+</li>
 </body>
 </html>
