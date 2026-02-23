@@ -1,0 +1,20 @@
+<?php
+function obtenerInvoiceFechas($conn, $inicio, $fin) {
+    try {
+        $sql = 'SELECT InvoiceId, InvoiceDate, Total
+                FROM invoice
+                WHERE CustomerId = :CustomerId
+                AND InvoiceDate BETWEEN :inicio AND :fin';
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':CustomerId', $_SESSION['usuario']['CustomerId'], PDO::PARAM_INT);
+        $stmt->bindValue(':inicio', $inicio, PDO::PARAM_STR);
+        $stmt->bindValue(':fin', $fin, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        trigger_error("Error en la obtención de las facturas entre fechas: " . $e->getMessage(), E_USER_ERROR);
+    }
+}
+?>
