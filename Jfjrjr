@@ -1,0 +1,16 @@
+<?php
+    function obtenerCliente($conn, $dni, $clave) {
+        try {
+            $sql = "SELECT dni, nombre, apellidos, email
+                    FROM clientes
+                    WHERE dni = :dni AND clave = :clave";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(':dni',   $dni,   PDO::PARAM_STR);
+            $stmt->bindValue(':clave', $clave, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            trigger_error("Error al obtener cliente: " . $e->getMessage(), E_USER_ERROR);
+        }
+    }
+?>
