@@ -1,0 +1,93 @@
+<?php include_once "../controllers/gestionSesiones.php"; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Compra Vehículos - Concesionario</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<body>
+<h1>Concesionario</h1>
+<div class="container">
+<div class="card border-success mb-3" style="max-width:45rem;">
+    <div class="card-header">Concesionario - Compra Vehículos</div>
+    <div class="card-body">
+
+        <b>Bienvenido/a:</b> <?php echo htmlspecialchars($_SESSION['cliente']['nombre'] . ' ' . $_SESSION['cliente']['apellidos']); ?><br>
+        <b>DNI:</b> <?php echo htmlspecialchars($_SESSION['cliente']['dni']); ?><br><br>
+
+        <?php if (!empty($_SESSION['ultimo_pedido'])): ?>
+
+            <p style="color:green"><b>Pedido realizado correctamente.</b></p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Numero Pedido</th>
+                        <th>Fecha Pedido</th>
+                        <th>Importe Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $_SESSION['ultimo_pedido']['num_pedido']; ?></td>
+                        <td><?php echo $_SESSION['ultimo_pedido']['fecha_venta']; ?></td>
+                        <td><?php echo number_format($_SESSION['ultimo_pedido']['importe_total'], 2); ?> €</td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="" method="post">
+                <input type="submit" name="volver" value="Volver" class="btn btn-secondary">
+            </form>
+
+        <?php else: ?>
+
+            <form action="" method="post">
+                <label><b>Vehículo (Marca - Modelo - Kms - Precio - Descuento):</b></label>
+                <select name="vehiculos" class="form-control">
+                    <?php if (empty($vehiculos)): ?>
+                        <option value="">No hay vehículos disponibles</option>
+                    <?php else: ?>
+                        <?php foreach ($vehiculos as $v): ?>
+                            <?php
+                                $nombre = $v['marca'] . ' ' . $v['modelo'];
+                                $valor  = $v['num_bastidor'] . '|' . $v['matricula'] . '|' . $nombre . '|' . $v['precio_vehiculo'] . '|' . $v['descuento'];
+                            ?>
+                            <option value="<?php echo htmlspecialchars($valor); ?>">
+                                <?php echo htmlspecialchars($v['matricula'] . ' - ' . $nombre . ' - ' . $v['kms'] . ' kms - ' . $v['precio_vehiculo'] . ' € - Dto: ' . $v['descuento'] . ' €'); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+
+                <?php if (!empty($_SESSION['cesta'])): ?>
+                    <br><b>Cesta:</b>
+                    <ul>
+                        <?php foreach ($_SESSION['cesta'] as $item): ?>
+                            <li>
+                                <?php echo htmlspecialchars($item['matricula'] . ' - ' . $item['nombre']); ?> |
+                                Precio: <?php echo $item['precio']; ?> € |
+                                Dto: <?php echo $item['descuento']; ?> € |
+                                <b>Final: <?php echo $item['precioFinal']; ?> €</b>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p><i>La cesta está vacía.</i></p>
+                <?php endif; ?>
+
+                <br>
+                <input type="submit" name="añadir"         value="Añadir"          class="btn btn-warning">
+                <input type="submit" name="realizarpedido"  value="Realizar Pedido" class="btn btn-warning">
+                <input type="submit" name="vaciar"          value="Vaciar Cesta"    class="btn btn-warning">
+            </form>
+
+        <?php endif; ?>
+
+        <br>
+        <a href="../controllers/logout.php">Cerrar Sesión</a>
+
+    </div>
+</div>
+</div>
+</body>
+</html>
