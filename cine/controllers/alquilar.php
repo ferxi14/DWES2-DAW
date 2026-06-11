@@ -1,6 +1,7 @@
 <?php
 
 include_once "gestionSesiones.php";
+include_once "../controllers/error.php";
 
 include_once "../db/conexionBBDD.php";
 $conn = conexionBBDD();
@@ -50,19 +51,11 @@ if (isset($_POST['agregar'])) {
                 ];
 
             } else {
-
-                trigger_error(
-                    "Máximo 4 películas en la cesta",
-                    E_USER_WARNING
-                );
+                trigger_error("Máximo 4 películas en la cesta", E_USER_WARNING);
             }
 
         } else {
-
-            trigger_error(
-                "La película ya está en la cesta",
-                E_USER_WARNING
-            );
+            trigger_error("La película ya está en la cesta", E_USER_WARNING);
         }
     }
 }

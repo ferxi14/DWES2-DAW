@@ -1,5 +1,7 @@
 <?php
 
+include_once "../controllers/error.php";
+
 if (isset($_POST['submit'])) {
 
     $username = trim($_POST['username']);

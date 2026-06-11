@@ -1,6 +1,7 @@
 <?php
 
 include_once "gestionSesiones.php";
+include_once "../controllers/error.php";
 
 include_once "../db/conexionBBDD.php";
 $conn = conexionBBDD();
